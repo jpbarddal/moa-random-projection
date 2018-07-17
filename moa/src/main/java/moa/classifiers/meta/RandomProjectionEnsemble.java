@@ -48,11 +48,8 @@ public class RandomProjectionEnsemble extends AbstractClassifier implements Mult
         for(int i = 0 ; i < ensemble.length; i++){
             Instance projected = projections[i].project(inst);
             double v[] = ensemble[i].getVotesForInstance(projected);
-//            if(Utils.maxIndex(v) == inst.classValue()) System.out.print("HIT,");
-//            else System.out.print("MISS,");
             votes[Utils.maxIndex(v)]++;
         }
-//        System.out.println("");
         if(Utils.sum(votes) > 0) Utils.normalize(votes);
         return votes;
     }
@@ -97,7 +94,7 @@ public class RandomProjectionEnsemble extends AbstractClassifier implements Mult
             ensemble[i].setModelContext(projectedHeader);
             projections[i] = new Projection(projectionOption.getChosenIndex());
         }
-
+        int debug = 1;
     }
 
     private void initProjectedHeader(InstancesHeader originalHeader, int lengthProjectedSpace) {
@@ -112,28 +109,6 @@ public class RandomProjectionEnsemble extends AbstractClassifier implements Mult
                 atts, 0));
         this.projectedHeader.setClassIndex(this.projectedHeader.numAttributes() - 1);
     }
-
-//    protected double[] aggregate(double a[], double b[], int numClasses){
-//        int len = Math.max(a.length, b.length);
-//        double agg[] = new double[numClasses];
-//        for(int i = 0; i < len; i++){
-//            double v = 0;
-//            v += i < a.length ? a[i] : 0.0;
-//            v += i < b.length ? b[i] : 0.0;
-//            agg[i] = v;
-//        }
-//        return agg;
-//
-////        int len = a.length > b.length ? a.length : b.length;
-////        double agg[] = new double[len];
-////        for(int i = 0; i < len; i++){
-////            double v = 0.0;
-////            if(i < a.length) v += a[i];
-////            if(i < b.length) v += b[i];
-////            agg[i] = v;
-////        }
-////        return agg;
-//    }
 
     class Projection{
         private int projectionType;
