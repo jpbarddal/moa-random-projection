@@ -94,7 +94,6 @@ public class RandomProjectionEnsemble extends AbstractClassifier implements Mult
             ensemble[i].setModelContext(projectedHeader);
             projections[i] = new Projection(projectionOption.getChosenIndex());
         }
-        int debug = 1;
     }
 
     private void initProjectedHeader(InstancesHeader originalHeader, int lengthProjectedSpace) {
@@ -123,7 +122,7 @@ public class RandomProjectionEnsemble extends AbstractClassifier implements Mult
 
             // Initializes the weights
             if (w == null){
-                w = new double[projectionLength][instnc.numAttributes() - 1];
+                w = new double[instnc.numAttributes() - 1][projectionLength];
                 for (int i = 0; i < w.length; i++) {
                     for (int j = 0; j < w[i].length; j++) {
                         double r;
@@ -145,6 +144,8 @@ public class RandomProjectionEnsemble extends AbstractClassifier implements Mult
 
             double vals[] = new double[projectionLength + 1];
 
+
+
             // copies the values in the original instance with the exception of the class
             double o[] = getDoubleArrayWithoutClass(instnc);
             for (int i = 0; i < projectionLength; i++){
@@ -159,6 +160,31 @@ public class RandomProjectionEnsemble extends AbstractClassifier implements Mult
             projected.setDataset(projectedHeader);
             projected.setClassValue(instnc.classValue());
             return projected;
+
+//            // copies the values in the original instance with the exception of the class
+//            double o[] = getDoubleArrayWithoutClass(instnc);
+//            for(int ix = 0; ix < vals.length - 1; ix++){
+//                double v = 0.0;
+//                for(int i = 0; i < o.length; i++){
+//                    for(int wi = 0; wi < w[wi].length; wi++){
+//                        System.out.println("[" + i + ";" + wi + "]");
+//                        v += o[i] * w[wi][i];
+//                    }
+//                }
+//                vals[ix] = (1.0 / Math.sqrt(projectionLength)) * v;
+//            }
+////            for (int i = 0; i < o.length; i++){
+////                double v = 0;
+////                for(int k = 0; k < w[i].length; k++){
+////                    v += o[i] * w[i][k];
+////                }
+////                vals[i] = (1.0 / Math.sqrt(projectionLength)) * v;
+////            }
+//
+//            Instance projected = new DenseInstance(1.0, vals);
+//            projected.setDataset(projectedHeader);
+//            projected.setClassValue(instnc.classValue());
+//            return projected;
         }
 
         private double[] getDoubleArrayWithoutClass(Instance instnc) {
